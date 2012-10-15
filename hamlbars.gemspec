@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email         = ['james@sociable.co.nz']
   s.homepage      = 'https://github.com/jamesotron/hamlbars'
   s.summary       = 'Extensions to HAML to allow creation of handlebars expressions.'
-  s.add_dependency 'haml'
+  s.add_dependency 'haml2handlebars'
   s.add_dependency 'sprockets'
   s.add_dependency 'tilt'
   s.add_dependency 'execjs', [">= 1.2"]

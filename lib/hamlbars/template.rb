@@ -1,4 +1,5 @@
 require 'tilt/template'
+require 'haml2handlebars'
 
 module Hamlbars
   class Template < Tilt::Template
@@ -80,18 +81,14 @@ module Hamlbars
     end
 
     def prepare
-      options = @options.merge(:filename => eval_file, :line => line)
-      @engine = ::Haml::Engine.new(data, options)
+      handlebars = Haml2Handlebars.convert(data)
+      @engine = Struct.new(:precompiled).new(handlebars)
     end
 
     # Uses Haml to render the template into an HTML string, then 
     # wraps it in the neccessary JavaScript to serve to the client.
     def evaluate(scope, locals, &block)
-      template = if @engine.respond_to?(:precompiled_method_return_value, true)
-                   super(scope, locals, &block)
-                 else
-                   @engine.render(scope, locals, &block)
-                 end
+      template = @engine.precompiled
 
       if scope.respond_to? :logical_path
         path = scope.logical_path
