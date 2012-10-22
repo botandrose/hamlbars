@@ -81,6 +81,7 @@ module Hamlbars
     end
 
     def prepare
+      self.class.render_templates_for :ember
       handlebars = Haml2Handlebars.convert(data)
       @engine = Struct.new(:precompiled).new(handlebars)
     end
